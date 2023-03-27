@@ -12,13 +12,13 @@ import {
 } from "firebase/auth";
 
 import { useNavigate } from "react-router-dom";
+import { async } from "@firebase/util";
 
 const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -77,13 +77,15 @@ const AuthContextProvider = ({ children }) => {
   };
 
   //Google Sign in
-  const googleSignIn = () => {
-    return signInWithRedirect(auth, provider);
+  const googleSignIn = async () => {
+    await signInWithRedirect(auth, provider);
   };
 
   //Sign out
-  const signout = () => {
-    signOut(auth);
+  const signout = async () => {
+    await signOut(auth);
+    setUser(null);
+    navigate("/");
   };
 
   //Set user onAuthStateChanged
@@ -92,10 +94,9 @@ const AuthContextProvider = ({ children }) => {
       // Check if email is verfied if not sign out the user, if verfied navigate to the app
       if (currentUser && !currentUser.emailVerified) {
         signOut(auth);
-        console.log("signed out");
-      } else {
+      } else if (currentUser && currentUser.emailVerified) {
         setUser(currentUser);
-        navigate("/app");
+        navigate("/app/all");
       }
       setLoading(false);
     });

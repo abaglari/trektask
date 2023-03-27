@@ -1,12 +1,11 @@
 import { useAuth } from "../../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRef, useState } from "react";
 
 const Signin = () => {
   const { signin, googleSignIn, error, setError } = useAuth();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
   const emailVerificationMessage = "Please verify your email address to login.";
@@ -22,13 +21,9 @@ const Signin = () => {
     setLoading(false);
   };
 
-  const googleLoginHandler = async () => {
-    try {
-      setLoading(true);
-      await googleSignIn();
-    } catch {
-      setError("Failed to Log in");
-    }
+  const googleLoginHandler = () => {
+    setLoading(true);
+    googleSignIn();
     setLoading(false);
   };
 

@@ -2,13 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+#index {
+    overflow-x: hidden;
+}
+
 .mobile-menu {
-    height: calc(100vh - 48px)
+    height: calc(100dvh - 48px)
 }
 
 .login,
 .signup {
-    height: calc(100vh - 48px)
+    height: calc(100dvh - 48px)
+}
+
+.main {
+    height: calc(100dvh - 40px);
+    background-color: #fcfcfc;
+
+}
+
+main {
+    background-color: #fcfcfc;
+}
+
+.project {
+    background-color: #fcfcfc;
+}
+
+.bot_border {
+    border-bottom: solid 1px #d1d5db;
+}
+
+.aside_main {
+    height: calc(100dvh - 80px);
 }
 
 .or-container {
@@ -28,5 +54,48 @@
 }
 
 .profile-menu {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.modal_container {
+    background-color: rgba(85, 85, 85, 0.737);
+
+}
+
+.nav-link:not(.active):hover {
+    background-color: #e2e8f0;
+}
+
+.active {
+    background-color: #e2e8f0;
+}
+
+.active:hover {
+    background-color: #e2e8f0;
+}
+
+.nav-link>.all {
+    color: #ef4444;
+}
+
+.nav-link>.today {
+    color: #16a34a;
+}
+
+.nav-link>.upcoming {
+    color: #2563eb;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    visibility: hidden;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    visibility: hidden;
 }

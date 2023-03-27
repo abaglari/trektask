@@ -1,16 +1,21 @@
 import { NavLink } from "react-router-dom";
+
+//Icons import
+
 import {
-  MdOutlineMenu,
   MdSearch,
   MdOutlineSettings,
   MdLogout,
   MdDownload,
 } from "react-icons/md";
+import { RiMenuUnfoldLine, RiMenuFoldLine } from "react-icons/Ri";
 import { GrUpgrade } from "react-icons/gr";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 const AppHeader = ({ sidebar, setSidebar }) => {
+  // Toggle Sidebar visibility
+
   const toggleSidebar = () => {
     setSidebar(!sidebar);
   };
@@ -29,6 +34,8 @@ const AppHeader = ({ sidebar, setSidebar }) => {
     }
   };
 
+  // Toggle profile menu visibility
+
   const handleProfile = () => {
     setProfileMenu(!profileMenu);
   };
@@ -43,6 +50,7 @@ const AppHeader = ({ sidebar, setSidebar }) => {
         setFocus(true);
       } else if (event.key === "Escape") {
         event.preventDefault();
+        inputRef.current.value = "";
         inputRef.current.blur();
         setFocus(false);
       }
@@ -55,30 +63,34 @@ const AppHeader = ({ sidebar, setSidebar }) => {
     };
   }, [focus]);
 
-  //useEffect to hide the profile menu on click
+  //useEffect to hide the profile menu on click when clicked outside the div and anywhere else on the window
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         profileMenuRef.current &&
         !profileMenuRef.current.contains(event.target) &&
-        !profileRef.current.contains(event.target)
+        !profileRef.current.contains(event.target) //
       ) {
         setProfileMenu(false);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [profileMenuRef]);
 
   return (
-    <header className='h-10  flex items-center px-8 bg-red-500 text-white gap-4 md:gap-0 w-full'>
-      <div className=' md:hidden flex items-center justify-start'>
+    <header className='h-10  flex items-center px-8 bg-red-500 text-white gap-4 md:gap-0 w-full select-none'>
+      <div className=' flex items-center justify-start mr-8'>
         <button onClick={toggleSidebar}>
-          <MdOutlineMenu className='text-2xl' />
+          {sidebar ? (
+            <RiMenuFoldLine className='text-2xl font-bold' />
+          ) : (
+            <RiMenuUnfoldLine className='text-2xl font-bold' />
+          )}
         </button>
       </div>
 
@@ -94,7 +106,7 @@ const AppHeader = ({ sidebar, setSidebar }) => {
             <input
               ref={inputRef}
               type='text'
-              className='outline-none  border-b-1 px-2 py-1 text-black'
+              className='outline-none  border-b-1 px-2 py-1 text-black text-sm'
               placeholder='Search....'
             />
             <span className=' bg-red-500 text-white px-2 rounded-md'>/</span>
@@ -114,16 +126,16 @@ const AppHeader = ({ sidebar, setSidebar }) => {
         ref={profileMenuRef}
         className={`${
           profileMenu ? "flex" : "hidden"
-        } profile-menu  w-11/12 sm:w-72 flex-col fixed bg-white text-black  rounded-md top-11 right-2  `}
+        } profile-menu  w-11/12 sm:w-72 flex-col fixed bg-white text-black z-20  rounded-md top-11 right-2  `}
       >
         <div className='border-b-2 mt-4'>
           <div className='flex items-center justify-start gap-4 px-4 '>
-            <div className='bg-white h-14  w-14 rounded-full border-red-500 border-2'></div>
-            <div className='text-sm '>
-              <div>
+            <div className='bg-white h-12 w-12 md:h-14 md:w-14 rounded-full border-red-500 border-2'></div>
+            <div>
+              <div className='text-sm font-bold'>
                 <span>{user.displayName}</span>
               </div>
-              <div>
+              <div className='text-xs md:text-sm '>
                 <span>{user.email}</span>
               </div>
             </div>
@@ -142,8 +154,8 @@ const AppHeader = ({ sidebar, setSidebar }) => {
               <span>Upgrade to Pro - Coming Soon </span>
             </li>
             <li className='mb-3 flex items-center gap-4'>
-              <MdDownload className='text-lg ' />
-              <span>Download for Android - Coming Soon </span>
+              <MdDownload className='text-xl ' />
+              <span>Download - Coming Soon </span>
             </li>
             <li className='mb-3 '>
               <button
